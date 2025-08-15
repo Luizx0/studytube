@@ -6,7 +6,9 @@ import { NotesEditor } from "@/components/NotesEditor";
 import { SubjectFilter } from "@/components/SubjectFilter";
 import { VideoHistory } from "@/components/VideoHistory";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { GraduationCap, BookOpen, Clock, FileText, History as HistoryIcon } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import { GraduationCap, BookOpen, Clock, FileText, History as HistoryIcon, LogOut } from "lucide-react";
 
 interface Video {
   id: string;
@@ -17,6 +19,7 @@ interface Video {
 }
 
 export default function StudyDashboard() {
+  const { user, signOut } = useAuth();
   const [selectedSubject, setSelectedSubject] = useState("all");
   const [videoHistory, setVideoHistory] = useState<Video[]>([]);
   const [currentVideo, setCurrentVideo] = useState<Video | null>(null);
@@ -92,8 +95,21 @@ export default function StudyDashboard() {
                   <Clock className="h-4 w-4" />
                   <span>Pomodoro ativo</span>
                 </div>
+                <div className="flex items-center gap-2">
+                  <span>Olá, {user?.email}</span>
+                </div>
               </div>
-              <ThemeToggle />
+              <div className="flex items-center gap-2">
+                <ThemeToggle />
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={signOut}
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  <LogOut className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
